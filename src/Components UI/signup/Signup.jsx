@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { Form, Link, useNavigate } from 'react-router-dom';
 import { ISignupUserData } from '../../models/signupUserData';
 import { userSignup } from '../../services/userAPI';
+import Spinner from '../spinner/Spinner';
 function Signup() {
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(false);
+
   const { register, handleSubmit, reset, getValues, formState } = useForm({
     mode: 'onBlur',
   });
@@ -12,6 +15,7 @@ function Signup() {
   const { errors } = formState;
 
   async function onSubmit(data) {
+    setIsLoading(true);
     console.log(data);
     const userData = {
       ...data,
@@ -20,6 +24,8 @@ function Signup() {
 
     const resData = await userSignup(userData);
     console.log(resData);
+    setIsLoading(false);
+
     if (resData?.status === 'success') {
       console.log(resData);
       navigate('/login');
@@ -33,6 +39,7 @@ function Signup() {
   return (
     <div className="container-fluid">
       <div className="card text-black m-5" style={{ borderRadius: '25px' }}>
+        {isLoading && <Spinner />}
         <div className="card-body">
           <div className="row">
             <Form

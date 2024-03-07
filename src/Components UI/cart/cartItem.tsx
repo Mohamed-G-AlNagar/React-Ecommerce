@@ -27,7 +27,6 @@ const CartItem: React.FC<CartItemProps> = ({ item }) => {
 
   const [itemQty, setItemQty] = useState(quantity);
 
-  console.log(item);
   function decreaseQty() {
     setItemQty(itemQty - 1);
     console.log(itemQty);

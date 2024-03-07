@@ -27,16 +27,3 @@ export async function getProduct(id) {
     return response.data.data;
   }
 }
-// export async function getAllProducts() {
-//   const { data, error } = await axios
-//     .get('https://dummyjson.com/products')
-//     .catch((err) => {
-//       console.error(err.message);
-//       throw Error(err);
-//     });
-//   if (!error) {
-//     console.log(data.products);
-
-//     return data.products;
-//   }
-// }

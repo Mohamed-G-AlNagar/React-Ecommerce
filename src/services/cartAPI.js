@@ -2,7 +2,7 @@ import axios from 'axios';
 import toast from 'react-hot-toast';
 // import { jwtDecode } from 'jwt-decode';
 
-export function createCartForNewUser() {}
+export function createCartForNewUser() { }
 
 export async function getCartById() {
   const token = localStorage.getItem('token') || '';
@@ -75,7 +75,6 @@ export async function addItemToCart(newItemId) {
   }
 }
 export async function deleteItemFromCart(itemId, quantity = 1) {
-  console.log(quantity, 'quantity----');
   //? protected route
   const token = localStorage.getItem('token') || '';
 

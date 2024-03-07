@@ -10,11 +10,9 @@ import { tokenContext } from '../../context/TokenContext';
 function Login() {
   const navigate = useNavigate();
   let { setToken } = useContext(tokenContext);
-
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  let isLoading = false;
 
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
@@ -25,14 +23,14 @@ function Login() {
   };
 
   const handleSubmit = async () => {
-    isLoading = true;
+    setIsLoading(true);
     const userData = {
       email,
       password,
     };
 
     const user = await userLogin(userData);
-    isLoading = false;
+    setIsLoading(false);
     if (user?.status === 'success') {
       console.log(user.data);
       setToken(user.token);
