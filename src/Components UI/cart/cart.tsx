@@ -4,8 +4,11 @@ import { useCart } from '../../hooks/cartHooks';
 import Spinner from '../spinner/Spinner';
 import { CartItemProps } from '../../models/cartItem';
 import { Link } from 'react-router-dom';
+import { makeOrder } from '../../services/orderAPI';
+import { useState } from 'react';
 
 function Cart() {
+  const [isLoadingPayment, setIsLoadingPayment] = useState(false);
   const { data: cartData, isLoading, error } = useCart();
   console.log(cartData, 'cartData');
   if (isLoading) return <Spinner />;
@@ -24,10 +27,18 @@ function Cart() {
   } = cartData;
   const date = new Date(updatedAt).toLocaleDateString();
 
-  console.log(products, 'products-------');
-
+  async function handleOrder() {
+    setIsLoadingPayment(true);
+    const response = await makeOrder(cartData._id);
+    console.log(response, 'response Payment');
+    setIsLoadingPayment(false);
+    if (response?.status === 'success') {
+      window.location.href = response.data.url;
+    }
+  }
   return (
     <section className="h-100 h-custom">
+      {isLoadingPayment && <Spinner />}
       <div className="container py-5 h-100">
         <div className="row d-flex justify-content-center align-items-center h-100">
           <div className="col-12">
@@ -101,6 +112,7 @@ function Cart() {
                         className="btn btn-dark btn-lg mb-4 "
                         style={{ width: '50%' }}
                         data-mdb-ripple-color="dark"
+                        onClick={handleOrder}
                       >
                         Order
                       </button>
